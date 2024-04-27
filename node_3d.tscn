@@ -1,0 +1,63 @@
+[gd_scene load_steps=12 format=3 uid="uid://8xnmhsiki3kt"]
+
+[ext_resource type="Script" path="res://script.gd" id="1_ah2sa"]
+[ext_resource type="Script" path="res://Mover.gd" id="2_kshmm"]
+[ext_resource type="Texture2D" uid="uid://cxeel7sop6ktc" path="res://football-soccer-ball-seamless-pattern-vector-41937775.jpg" id="2_rfhsu"]
+[ext_resource type="Texture2D" uid="uid://dr5hxiou1sdtr" path="res://07bf8a92b22866fde5a2ac2f289e4140.jpg" id="4_ipoo6"]
+[ext_resource type="Texture2D" uid="uid://bd5xorpokbe05" path="res://pngtree-color-icon---football-goal-post-game-icon-penalty-vector-picture-image_10800743.png" id="5_diyba"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_fognn"]
+albedo_texture = ExtResource("2_rfhsu")
+
+[sub_resource type="SphereMesh" id="SphereMesh_xlj4g"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_2vblh"]
+albedo_texture = ExtResource("4_ipoo6")
+
+[sub_resource type="BoxMesh" id="BoxMesh_xiuxf"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_7xvtt"]
+albedo_texture = ExtResource("5_diyba")
+
+[sub_resource type="BoxMesh" id="BoxMesh_mpmms"]
+
+[node name="Node3D" type="Node3D"]
+script = ExtResource("1_ah2sa")
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.73037, 1.39014, 0)
+light_color = Color(0.980392, 1, 1, 1)
+shadow_enabled = true
+
+[node name="Camera3D" type="Camera3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 3.2175)
+
+[node name="Timer" type="Timer" parent="."]
+wait_time = 0.5
+autostart = true
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="."]
+material_override = SubResource("StandardMaterial3D_fognn")
+mesh = SubResource("SphereMesh_xlj4g")
+script = ExtResource("2_kshmm")
+
+[node name="MeshInstance3D2" type="MeshInstance3D" parent="."]
+transform = Transform3D(20, 0, 0, 0, 0.08, 0, 0, 0, 20, 0.0294446, -0.451561, 0)
+material_override = SubResource("StandardMaterial3D_2vblh")
+mesh = SubResource("BoxMesh_xiuxf")
+skeleton = NodePath("../MeshInstance3D")
+
+[node name="MeshInstance3D3" type="MeshInstance3D" parent="."]
+transform = Transform3D(0.206803, 0, -0.418948, 0, 2.07, 0, 0.0365058, 0, 2.37331, -4.94043, 0, -0.723383)
+material_override = SubResource("StandardMaterial3D_7xvtt")
+mesh = SubResource("BoxMesh_mpmms")
+
+[node name="MeshInstance3D4" type="MeshInstance3D" parent="."]
+transform = Transform3D(-0.0779474, 0, -2.45823, 0, 4.2849, 0, -0.0595865, 0, -5.16521, 8.99825, -0.303626, -2.62055)
+material_override = SubResource("StandardMaterial3D_7xvtt")
+mesh = SubResource("BoxMesh_mpmms")
+skeleton = NodePath("../MeshInstance3D3")
+
+[connection signal="timeout" from="Timer" to="." method="_on_timer_timeout"]
+[connection signal="timeout" from="Timer" to="MeshInstance3D" method="_on_timer_timeout"]
+[connection signal="movingLeft" from="MeshInstance3D" to="." method="_on_mesh_instance_3d_moving_left"]
